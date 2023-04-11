@@ -1,10 +1,138 @@
 package org.example;
 
+import java.util.Scanner;
+
+
+/*
+FIX:
+- do the log ins
+
+ */
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+
+        while (true) {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Welcome to MarketSuper!\n" +
+                    "please enter a number corresponding to your user type: \n" +
+                    "1 - customer \n" +
+                    "2 - sales representative \n" +
+                    "3 - management");
+            String userType = scanner.nextLine();
+
+
+            if (userType.equals("1")) {
+
+                System.out.println("Welcome, customer! \n" +
+                        "please enter the number for the action to be performed: \n" +
+                        "1 - buy an item \n" +
+                        "2 - search for a specific item \n" +
+                        "3 - view list of items\n" +
+                        "4 - view your balance\n" +
+                        "5 - exit ");
+                String customerChoice = scanner.next();
+
+                switch (customerChoice){
+                    case "1":
+                        //phonebookController.buyItem();
+                        break;
+                    case "2":
+                        //phonebookController.searchItem();
+                        break;
+                    case "3":
+                        //phonebookController.viewItems();
+                        break;
+                    case "4":
+                        //phonebookController.viewBalance();
+                        break;
+                    case "5":
+                        System.out.println("Good bye!");
+                        System.exit(0);
+                    default:
+                        System.out.println("please enter a valid menu option");
+                }
+
+                break;
+            } else if (userType.equals("2")) {
+                System.out.println("Welcome, sales rep!! \n" +
+                        "please enter the number for the action to be performed: \n" +
+                        "1 - register a new item \n" +
+                        "2 - search for a specific item \n" +
+                        "3 - register a new customer \n" +
+                        "4 - view item availability\n" +
+                        "5 - exit ");
+                String repChoice = scanner.next();
+
+                switch (repChoice){
+                    case "1":
+                        //phonebookController.registerItem();
+                        break;
+                    case "2":
+                        //phonebookController.searchItem();
+                        break;
+                    case "3":
+                        //phonebookController.registerCustomer();
+                        break;
+                    case "4":
+                        //phonebookController.viewItems();
+                        break;
+                    case "5":
+                        System.out.println("Good bye!");
+                        System.exit(0);
+                    default:
+                        System.out.println("please enter a valid menu option");
+                }
+                break;
+
+            } else if (userType.equals("3")) {
+                System.out.println("Welcome, manager! \n" +
+                        "please enter the number for the action to be performed: \n" +
+                        "1 - view item availability \n" +
+                        "2 - search for a specific item \n" +
+                        "3 - create a profit and loss statement\n" +
+                        "4 - exit ");
+                String managerChoice = scanner.next();
+
+                switch (managerChoice){
+                    case "1":
+                        //phonebookController.viewItems();
+                        break;
+                    case "2":
+                        //phonebookController.searchItem();
+                        break;
+                    case "3":
+                        //phonebookController.createStatement();
+                        break;
+                    case "4":
+                        System.out.println("Good bye!");
+                        System.exit(0);
+                    default:
+                        System.out.println("please enter a valid menu option");
+                }
+                break;
+
+            } else {
+                System.out.println("please enter a valid user type!");
+                System.out.println("press any key + 'enter' to try again or 'e' to exit the program");
+                String exitOrStay = scanner.next();
+
+                if (exitOrStay.equals("e")) {
+                    System.exit(0);
+                }
+            }
+        }
+
+
+
+
+
+
+
     }
 }
+
+
+
 
 /*
 Build an application for a supermarket. The application should be able to collect information about products in the
