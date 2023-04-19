@@ -1,5 +1,9 @@
 package org.example;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Scanner;
 
 
@@ -9,7 +13,20 @@ FIX:
 
  */
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
+
+        String url = "jdbc:mysql://localhost:3306/supermarket_java";
+        String username = "root";
+        String password = "Spiegoshana";
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection con = DriverManager.getConnection(url, username, password);
+        Statement stmt = con.createStatement();
+
+
+        SupermarketManagement supermarketManagement = new SupermarketManagement();
+
+        UserManagement userManagement = new UserManagement();
 
         while (true) {
             Scanner scanner = new Scanner(System.in);
@@ -22,94 +39,115 @@ public class Main {
 
 
             if (userType.equals("1")) {
+                if (userManagement.loginUser(con)) {
+                    System.out.println("Welcome, customer! \n" +
+                            "please enter the number for the action to be performed: \n" +
+                            "1 - buy an item \n" +
+                            "2 - search for a specific item \n" +
+                            "3 - view list of items\n" +
+                            "4 - view your balance\n" +
+                            "5 - exit ");
+                    String customerChoice = scanner.next();
 
-                System.out.println("Welcome, customer! \n" +
-                        "please enter the number for the action to be performed: \n" +
-                        "1 - buy an item \n" +
-                        "2 - search for a specific item \n" +
-                        "3 - view list of items\n" +
-                        "4 - view your balance\n" +
-                        "5 - exit ");
-                String customerChoice = scanner.next();
+                    switch (customerChoice){
+                        case "1":
+                            supermarketManagement.buyItem(null, null);
+                            break;
+                        case "2":
+                            supermarketManagement.searchItem();
+                            break;
+                        case "3":
+                            userManagement.viewItem(con);
+                            break;
+                        case "4":
+                            //userManagement.viewBalance();
+                            break;
+                        case "5":
+                            System.out.println("Good bye!");
+                            System.exit(0);
+                        default:
+                            System.out.println("please enter a valid menu option");
+                    }
+                } else {
+                System.out.println("login failed");
+            }
 
-                switch (customerChoice){
-                    case "1":
-                        //phonebookController.buyItem();
-                        break;
-                    case "2":
-                        //phonebookController.searchItem();
-                        break;
-                    case "3":
-                        //phonebookController.viewItems();
-                        break;
-                    case "4":
-                        //phonebookController.viewBalance();
-                        break;
-                    case "5":
-                        System.out.println("Good bye!");
-                        System.exit(0);
-                    default:
-                        System.out.println("please enter a valid menu option");
-                }
 
-                break;
+
+
             } else if (userType.equals("2")) {
-                System.out.println("Welcome, sales rep!! \n" +
+                if (userManagement.loginUser(con)) {
+
+                    System.out.println("Welcome, sales rep!! \n" +
                         "please enter the number for the action to be performed: \n" +
                         "1 - register a new item \n" +
                         "2 - search for a specific item \n" +
                         "3 - register a new customer \n" +
                         "4 - view item availability\n" +
-                        "5 - exit ");
-                String repChoice = scanner.next();
+                        "5 - update product quantity\n"+
+                        "6 - exit ");
+                    String repChoice = scanner.next();
 
-                switch (repChoice){
-                    case "1":
-                        //phonebookController.registerItem();
-                        break;
-                    case "2":
-                        //phonebookController.searchItem();
-                        break;
-                    case "3":
-                        //phonebookController.registerCustomer();
-                        break;
-                    case "4":
-                        //phonebookController.viewItems();
-                        break;
-                    case "5":
+                    switch (repChoice){
+                        case "1":
+                        supermarketManagement.registerItem();
+                            break;
+                        case "2":
+                        supermarketManagement.searchItem();
+                            break;
+                        case "3":
+                        userManagement.registerCustomer();
+                            break;
+                        case "4":
+                        supermarketManagement.viewItems(con);
+                            break;
+                        case "5":
+                        //supermarketManagement.updateQuantity();
+                            break;
+                        case "6":
                         System.out.println("Good bye!");
                         System.exit(0);
-                    default:
+                        default:
                         System.out.println("please enter a valid menu option");
+                    }
+
+                } else {
+                    System.out.println("login failed");
                 }
-                break;
+
+
+
 
             } else if (userType.equals("3")) {
-                System.out.println("Welcome, manager! \n" +
+                if (userManagement.loginUser(con)) {
+                    System.out.println("Welcome, manager! \n" +
                         "please enter the number for the action to be performed: \n" +
                         "1 - view item availability \n" +
                         "2 - search for a specific item \n" +
                         "3 - create a profit and loss statement\n" +
                         "4 - exit ");
-                String managerChoice = scanner.next();
+                    String managerChoice = scanner.next();
 
-                switch (managerChoice){
-                    case "1":
-                        //phonebookController.viewItems();
+                    switch (managerChoice){
+                        case "1":
+                        supermarketManagement.viewItems(con);
                         break;
-                    case "2":
-                        //phonebookController.searchItem();
+                        case "2":
+                        supermarketManagement.searchItem();
                         break;
-                    case "3":
-                        //phonebookController.createStatement();
+                        case "3":
+                        //supermarketManagement.createStatement();
                         break;
-                    case "4":
+                        case "4":
                         System.out.println("Good bye!");
                         System.exit(0);
-                    default:
+                        default:
                         System.out.println("please enter a valid menu option");
-                }
-                break;
+                        }
+
+                    } else {
+                    System.out.println("login failed");
+                    }
 
             } else {
                 System.out.println("please enter a valid user type!");
@@ -121,10 +159,6 @@ public class Main {
                 }
             }
         }
-
-
-
-
 
 
 
